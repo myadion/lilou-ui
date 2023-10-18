@@ -1,0 +1,31 @@
+{
+  "name": "lilou-ui",
+  "private": true,
+  "version": "0.0.1",
+  "main": "main.js",
+  "author": "Adion",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.3.67",
+    "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "@wazo/sdk": "^0.39.8",
+    "animate.css": "^4.1.1",
+    "date-fns": "^2.30.0",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.0",
+    "unplugin-vue-components": "^0.25.2",
+    "vite-plugin-vuetify": "^1.0.2",
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.5",
+    "vuetify": "^3.3.22"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.4.2",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "vite": "^4.4.0"
+  }
+}
