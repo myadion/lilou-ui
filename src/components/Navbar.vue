@@ -12,10 +12,10 @@
             <v-list-item to="chat" prepend-icon="mdi-forum" value="chat" title="Chat"></v-list-item>
             <v-list-item to="meeting" prepend-icon="mdi-webcam" value="meeting" title="Conférence"></v-list-item>
             <v-list-item to="history" prepend-icon="mdi-phone-clock" value="history" title="Journal d'appel"></v-list-item>
-            <v-list-item to="" prepend-icon="mdi-chart-box" value="dashboard" title="Wallboard"></v-list-item>
-            <v-list-item to="" prepend-icon="mdi-contacts" value="contacts" title="Contacts"></v-list-item>
-            <v-list-item to="" prepend-icon="mdi-voicemail" value="voicemail" title="Messagerie vocale"></v-list-item>
-            <v-list-item to="" prepend-icon="mdi-cog" value="settings" title="Paramètres"></v-list-item>
+            <v-list-item to="wallboard" prepend-icon="mdi-chart-box" value="dashboard" title="Wallboard"></v-list-item>
+            <v-list-item to="contacts" prepend-icon="mdi-contacts" value="contacts" title="Contacts"></v-list-item>
+            <v-list-item to="voicemail" prepend-icon="mdi-voicemail" value="voicemail" title="Messagerie vocale"></v-list-item>
+            <v-list-item to="settings" prepend-icon="mdi-cog" value="settings" title="Paramètres"></v-list-item>
         </v-list>
 
         <template v-slot:append>
@@ -35,7 +35,5 @@ const me = wazo.me()
 function logout() {
     wazo.logout()
 }
-
-console.log(me)
 
 </script>
