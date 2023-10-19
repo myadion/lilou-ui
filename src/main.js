@@ -19,6 +19,16 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import router from './router'
 import 'animate.css';
 
+import {
+  VDataTable,
+  VDataTableServer,
+  VDataTableVirtual,
+} from "vuetify/labs/VDataTable";
+
+export default createVuetify({
+})
+
+
 const vuetify = createVuetify({
   icons: {
     defaultSet: "mdi",
@@ -28,7 +38,12 @@ const vuetify = createVuetify({
       fa,
     },
   },
-  components,
+  components: {
+    ...components,
+    VDataTable,
+    VDataTableServer,
+    VDataTableVirtual
+  },
   directives,
 })
 

@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Wazo from '@wazo/sdk/lib/simple'
-// import { WazoApiClient } from '@wazo/sdk/dist/wazo-sdk'
+import { WazoApiClient } from '@wazo/sdk/dist/wazo-sdk'
 
 
 export const useWazoService = defineStore('wazo', () => {
@@ -13,21 +13,20 @@ export const useWazoService = defineStore('wazo', () => {
     // Session
     const session = ref([])
 
-    // const client = new WazoApiClient({
-    //   server: 'uc.adion-voip.eu', 
-    //   agent: null,
-    //   clientId: null,
-    //   isMobile: false,
-    // })
+    // Client
+    const client = new WazoApiClient({
+      server: 'uc.adion-voip.eu', 
+      agent: null,
+      clientId: null,
+      isMobile: false,
+    })
 
     async function init(){
-        // Wazo.Auth.init(null, 43200, null, null);
+        Wazo.Auth.init(null, 43200, null, null);
         Wazo.Auth.setHost("uc.adion-voip.eu");
-        // if(session.value.token){
-        //   client.setToken(session.value.token);
-        //   const valid = await client.auth.checkToken(session.value.token);
-
-        // }
+        if(session.value.token){
+          client.setToken(session.value.token);
+        }
     }
     
     async function login(username, password) {
@@ -52,12 +51,20 @@ export const useWazoService = defineStore('wazo', () => {
     }
 
 
+    async function get_call_history(){
+      return await client.callLogd.listCallLogs(0, 0).then(res => {
+        return res
+      })
+    }
+
+
 
     return { 
         init,
         login,
         logout,
         me,
+        get_call_history,
         session
     }
 },
