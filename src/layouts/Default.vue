@@ -13,7 +13,7 @@
                 </v-col>
 
                 <!-- Softphone à droite -->
-                <v-col cols="2" class="bg-surface-variant fixed-softphone">
+                <v-col cols="2" class="bg-surface-variant fixed-softphone pa-0">
                     <softphone />
                 </v-col>
             </v-row>
