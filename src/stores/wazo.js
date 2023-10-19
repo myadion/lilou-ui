@@ -2,8 +2,7 @@ import { defineStore } from 'pinia'
 import { ref, reactive, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import Wazo from '@wazo/sdk/lib/simple'
-import { WazoApiClient } from '@wazo/sdk/dist/wazo-sdk'
-
+import { WazoApiClient, ApiRequester } from '@wazo/sdk/dist/wazo-sdk'
 
 export const useWazoService = defineStore('wazo', () => {
 
@@ -12,6 +11,12 @@ export const useWazoService = defineStore('wazo', () => {
 
     // Session
     const session = ref([])
+
+    const requester = new ApiRequester({ 
+      server: 'uc.adion-voip.eu', 
+      agent: null,
+      token: null
+    });
 
     // Client
     const client = new WazoApiClient({
@@ -26,14 +31,16 @@ export const useWazoService = defineStore('wazo', () => {
         Wazo.Auth.setHost("uc.adion-voip.eu");
         if(session.value.token){
           client.setToken(session.value.token);
+          requester.setToken(session.value.token);
         }
     }
     
     async function login(username, password) {
       await Wazo.Auth.logIn(username, password).then(res => {
-        // client.setToken(res.token);
-        session.value = res
-        router.push('/')
+          session.value = res
+          client.setToken(session.value.token);
+          requester.setToken(session.value.token);
+          router.push('/')
       }).catch(err => {        
         const msg = JSON.parse(err.message)
         throw new Error(msg.reason);
@@ -42,6 +49,7 @@ export const useWazoService = defineStore('wazo', () => {
 
     async function logout() {
       await Wazo.Auth.logout()
+      await client.auth.logOut(session.value.token);
       session.value = []
       router.push('/')
     }
@@ -55,6 +63,9 @@ export const useWazoService = defineStore('wazo', () => {
       return await client.callLogd.listCallLogs(0, 0).then(res => {
         return res
       })
+      // return await requester.get('/call-logd/1.0/users/me/cdr').then(res => {
+      //   return res
+      // })
     }
 
 
