@@ -12,6 +12,8 @@ import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 import { fa } from "vuetify/iconsets/fa";
 import { aliases, mdi } from "vuetify/lib/iconsets/mdi";
+import Notifications from '@kyvg/vue3-notification'
+
 
 import "@mdi/font/css/materialdesignicons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
@@ -19,11 +21,11 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import router from './router'
 import 'animate.css';
 
-import {
-  VDataTable,
-  VDataTableServer,
-  VDataTableVirtual,
-} from "vuetify/labs/VDataTable";
+// import {
+//   VDataTable,
+//   VDataTableServer,
+//   VDataTableVirtual,
+// } from "vuetify/VDataTable";
 
 export default createVuetify({
 })
@@ -40,9 +42,9 @@ const vuetify = createVuetify({
   },
   components: {
     ...components,
-    VDataTable,
-    VDataTableServer,
-    VDataTableVirtual
+    // VDataTable,
+    // VDataTableServer,
+    // VDataTableVirtual
   },
   directives,
 })
@@ -54,5 +56,6 @@ const app = createApp(App)
 
 app.use(vuetify)
 app.use(pinia);
+app.use(Notifications)
 app.use(router)
 app.mount('#app')

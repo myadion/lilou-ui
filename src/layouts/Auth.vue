@@ -10,8 +10,8 @@
 
                     <!-- Formulaire à droite -->
                     <v-col cols="12" md="3">
-                        <v-row align="center" justify="center" style="height: 100vh; width: 100%;">
-                            <v-card :loading="loading" flat style="width: 80%;">
+                        <v-row v-if="!loading" align="center" justify="center" style="height: 100vh;margin:0;">
+                            <v-card flat style="width: 80%;">
                                 <v-form ref="form">
                                     
                                     <div class="text-subtitle-1 text-medium-emphasis">Compte</div>
@@ -25,6 +25,7 @@
                                         variant="outlined"
                                         v-model="email"
                                         required
+                                        @keyup.enter="login"
                                     ></v-text-field>
 
                                     <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
@@ -43,17 +44,17 @@
                                         @click:append-inner="visible = !visible"
                                         v-model="password"
                                         required
+                                        @keyup.enter="login"
                                     >
                                     </v-text-field>
 
                                     <v-btn block class="mb-8" color="blue" size="large" variant="tonal" @click="login"> Connexion </v-btn>
+                                    
                                 </v-form>
-                                <v-alert v-if="error"
-                                icon="mdi-alert-circle"
-                                :title="error"
-                                type="error"
-                                ></v-alert>
                             </v-card>
+                        </v-row>
+                        <v-row v-else align="center" justify="center" style="height: 100vh; margin:0;background-color: #222;">
+                            <v-progress-circular indeterminate color="blue"></v-progress-circular>
                         </v-row>
                     </v-col>
                 </v-row>
@@ -62,13 +63,13 @@
     </v-app>
 </template>
 <script setup>
-import { ref } from 'vue'
-import useWazoService from '@/stores/wazo'
+import { ref, watch } from 'vue'
+import { useAdionService } from  '@/stores/adion'
 
-const wazo = useWazoService()
-// wazo.reset()
+const adion = useAdionService()
+// adion.reset()
 
-let visible = false
+const visible = ref(false)
 
 const loading = ref(false)
 const error = ref(false)
@@ -84,7 +85,8 @@ const rules = {
 function login() {
     loading.value = true
     if (form.value.validate()) {
-        const auth = wazo.login(email.value, password.value)
+        // const auth = adion.login(email.value, password.value)
+        const auth = adion.login('k.paly@myadion.com', '159753852')
         .catch(err => {
             loading.value = false
             error.value = err.message
