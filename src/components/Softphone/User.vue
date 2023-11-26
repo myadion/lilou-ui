@@ -80,7 +80,7 @@ import useTeamStore from '@/stores/team';
 const team = useTeamStore();
 
 const me = team.me
-console.log(me)
+
 const computedAvatar = computed(() => {
     if (me.avatar) {
         return me.avatar;
