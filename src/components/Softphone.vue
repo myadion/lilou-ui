@@ -30,7 +30,9 @@
         </div>
         <div class="bottom pb-5">
 
-            <user v-if="!computed_active_call && hide_control" 
+            <user v-if="incoming_call.length === 0 &&
+                current_hold_call.length === 0 &&
+                active_call.length === 0" 
             />
 
             <avatar v-if="computed_active_call" 
@@ -75,23 +77,22 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, reactive, computed, watchEffect } from 'vue';
 const search_showed = ref(false)
-const incoming_call = reactive([])
+// const incoming_call = reactive([])
 
-
-// const incoming_call = reactive([
-//     {
-//         id: '287d94cd-4f2a-44db-a2cc-40a02a036f80',
-//         number: '113',
-//         name: 'Jordan Carpanin',
-//         start: new Date(),
-//     },
-//     {
-//         id: '9b85e677-a715-40f7-a9fd-22ad5577cf97',
-//         number: '+336154874129',
-//         name: 'Manon Cossoul',
-//         start: new Date(),
-//     }
-// ])
+const incoming_call = reactive([
+    {
+        id: '287d94cd-4f2a-44db-a2cc-40a02a036f80',
+        number: '113',
+        name: 'Jordan Carpanin',
+        start: new Date(),
+    },
+    {
+        id: '9b85e677-a715-40f7-a9fd-22ad5577cf97',
+        number: '+336154874129',
+        name: 'Manon Cossoul',
+        start: new Date(),
+    }
+])
 
 const active_call = reactive([])
 
@@ -117,11 +118,6 @@ const active_call = reactive([])
 const current_hold_call = reactive([])
 let hide_control = ref(false)
 let hide_dialpad = ref(true)
-
-console.log('incoming', incoming_call.length)
-console.log('hold', current_hold_call.length)
-console.log('active', active_call.length)
-
 
 function handle_key_down(event) {
     if (event.altKey && event.key === 'q') {
