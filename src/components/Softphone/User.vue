@@ -16,7 +16,7 @@
             <v-col cols="12" class="adion-presence pa-0 ma-0">
                 <v-menu location="end">
                     <template v-slot:activator="{ props }">
-                        <v-chip class="ma-2" :color="computedPresenceColor" label v-bind="props" variant="default" >
+                        <v-chip class="ma-2" :color="computedPresenceColor" label v-bind="props" variant="text" >
                             <v-icon start icon="mdi-account-circle-outline"></v-icon>
                             {{ computedPresenceName }}
                         </v-chip>

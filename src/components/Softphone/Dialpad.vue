@@ -31,6 +31,7 @@
     import { ref, defineEmits } from 'vue'
 
     const props = defineProps({
+        call: String,
         input: Boolean,
         back: Boolean,
     });
@@ -64,7 +65,12 @@
 
     function appendToNumber(value) {
         numberInput.value += value;
-        emit('dtmf', value)
+        if(props.back === true){
+            emit('dtmf', {
+                call: props.call,
+                dtmf: value
+            })
+        }
     }
 
     const emit = defineEmits([
@@ -72,10 +78,6 @@
         'close',
         'make_call',
     ]);
-
-    function dtmf(value){
-        emit('dtmf', value)
-    }
 
     function close(){
         emit('close')

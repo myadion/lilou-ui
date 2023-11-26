@@ -22,7 +22,7 @@ import useAdionService from '@/stores/adion';
 
 const adion = useAdionService();
 const connected = ref(null);
-const needPermission = ref(true);
+const needPermission = ref(false);
 
 adion.init().then(() => {
   connected.value = adion.user.is_connected;
@@ -33,7 +33,7 @@ watch(() => adion.user.is_connected, (newValue) => {
 });
 
 onMounted(() => {
-  checkAndRequestPermissions();
+  // checkAndRequestPermissions();
 });
 
 async function checkAndRequestPermissions() {

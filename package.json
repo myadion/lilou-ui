@@ -13,6 +13,7 @@
     "@kyvg/vue3-notification": "^3.0.2",
     "@mdi/font": "^7.3.67",
     "@vitejs/plugin-vue-jsx": "^3.0.2",
+    "@wazo/sdk": "^0.39.13",
     "animate.css": "^4.1.1",
     "date-fns": "^2.30.0",
     "pinia": "^2.1.7",
