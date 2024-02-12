@@ -55,7 +55,7 @@ export const useAdionService = defineStore('adion', () => {
     // Variables for headers
     const ck = ref('')
     const sk = ref('')
-    const ak = "13215c4c-23da-4a48-b711-1c162ada76f8"
+    const ak = "12a2c1f2-963f-47a2-a0ab-02a92abec5bf"
 
     // Axios
     const api = axios.create({
@@ -199,8 +199,8 @@ export const useAdionService = defineStore('adion', () => {
         try {
             const res = await api.post('/auth/login', { email: email, password: password, realm : 'uc.adion-voip.eu' })
 
-            res.data.ck ? ck.value = res.data.ck : ck.value = ''
-            res.data.sk ? sk.value = res.data.sk : sk.value = ''  
+            res.data.key ? ck.value = res.data.key : ck.value = ''
+            res.data.secret ? sk.value = res.data.secret : sk.value = ''  
             
             localStorage.setItem('ck', ck.value)
             localStorage.setItem('sk', sk.value)    
