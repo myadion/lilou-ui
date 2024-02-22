@@ -49,8 +49,8 @@ export const useAdionService = defineStore('adion', () => {
     })
                 
     // Adion Server
-    const base_api = "http://localhost:8000"
-    const base_ws = "ws://localhost:8080"
+    const base_api = "https://uc.adion-api.eu"
+    const base_ws = "ws://ws.adion-voip.eu:32776"
 
     // Variables for headers
     const ck = ref('')
