@@ -29,7 +29,9 @@
 import { computed } from 'vue'
 import { useAdionService } from '@/stores/adion'
 import useTeamStore from '@/stores/team';
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const adion = useAdionService()
 const team = useTeamStore();
 
@@ -45,7 +47,10 @@ const computedAvatar = computed(() => {
 });
 
 function logout() {
-    adion.logout()
+    adion.logout().then(() => {
+        adion.reset()
+        router.push('/')
+    });
 }
 
 </script>
