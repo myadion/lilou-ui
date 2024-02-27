@@ -98,6 +98,7 @@ export const useAdionService = defineStore('adion', () => {
         ck.value = ''
         sk.value = ''
         user.is_connected = false
+        ws.value = null
         return true
     }
 
