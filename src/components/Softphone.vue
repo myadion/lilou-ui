@@ -218,7 +218,7 @@ watchEffect(() => {
 
 <style scoped>
 .softphone {
-    background-image: url('softphone_background.svg');
+    background-image: url('/softphone_background.svg');
     background-size: cover;
     height: 100vh;
     color: white;
