@@ -220,7 +220,7 @@ export const useAdionService = defineStore('adion', () => {
 
     const login_state = async () => get('/auth/login')
 
-    const logout = async () => del('/admin/login', "Vous avez été déconnecté")
+    const logout = async () => del('/auth/login', "Vous avez été déconnecté")
 
     const auth_refresh = async (expiration) => post('/auth/renew', {expiration: expiration ?? 3600}, "Votre session a été renouvelée")
 
