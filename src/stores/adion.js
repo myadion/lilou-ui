@@ -110,9 +110,12 @@ export const useAdionService = defineStore('adion', () => {
             await get('/auth/login')
                 .then(async (res) => {
                     if(res){                      
+                        
+                        Object.assign(user, await get('/me'))
+                        user.is_connected = true
+
                         await initService()  
                         initWebSocket()
-                        user.is_connected = true
                     } else {
                         user.is_connected = false
                         reset()
@@ -207,11 +210,8 @@ export const useAdionService = defineStore('adion', () => {
             localStorage.setItem('sk', sk.value)    
             user.acls = res.data.acls  
             user.is_connected = true
-            await initService()  
-            initWebSocket()
 
-
-            Object.assign(user, await _get('/me'))
+            await init()  
 
             return res.data
         } catch (error) {

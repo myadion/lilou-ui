@@ -29,6 +29,7 @@ export const useTeamStore = defineStore('useTeamStore', () => {
 
   async function init(){
     members.value = await adion.get('/users');
+    console.log(adion.user)
 
     Object.assign(me, members.value.find(member => member.uuid === adion.user.uuid));
   }
