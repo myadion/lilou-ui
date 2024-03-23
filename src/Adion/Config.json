@@ -1,0 +1,6 @@
+{
+    "API_URL": "uc.adion-api.eu/api",
+    "API_AK": "12a2c1f2-963f-47a2-a0ab-02a92abec5bf",
+    "WS_URL": "ws.adion-voip.eu",
+    "WS_PORT": "32776"
+}
