@@ -63,7 +63,6 @@ export default class WebsocketController extends Controller {
 
             this.websocket.client.onerror = (error) => {
                 console.error('Websocket error', error)
-                this.error(error, "Websocket")
             }
         }
 
