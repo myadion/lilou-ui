@@ -29,9 +29,12 @@
 
 <script setup>
     import { ref, defineEmits } from 'vue'
+    import useAdion from '@/Adion'
+
+    const adion = useAdion()
 
     const props = defineProps({
-        call: String,
+        call: Object,
         input: Boolean,
         back: Boolean,
     });
@@ -66,17 +69,12 @@
     function appendToNumber(value) {
         numberInput.value += value;
         if(props.back === true){
-            emit('dtmf', {
-                call: props.call,
-                dtmf: value
-            })
+            adion.call.dtmf(props.call.id, value)
         }
     }
 
     const emit = defineEmits([
-        'dtmf',
         'close',
-        'make_call',
     ]);
 
     function close(){
@@ -85,7 +83,7 @@
 
     function make_call(){
         if(numberInput.value.length > 0 && props.back === false){
-            emit('make_call', numberInput.value)
+            adion.call.new(numberInput.value)
         }
     }
 </script>

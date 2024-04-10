@@ -1,12 +1,12 @@
  <template>
     <v-container>
         <v-row>
-            <v-col cols="12" class="adion-call" v-if="name">
-                <h3>{{ name }}</h3>
-                <span>{{ number }}</span>
+            <v-col cols="12" class="adion-call" v-if="call.name">
+                <h3>{{ call.name }}</h3>
+                <span>{{ call.number }}</span>
             </v-col>
             <v-col cols="12" class="adion-call" v-else>                
-                <h3>{{ number }}</h3>
+                <h3>{{ call.number }}</h3>
             </v-col>
             <v-col cols="12" class="adion-avatar">
                 <v-avatar rounded class="rounded-pill" size="120px">
@@ -26,13 +26,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount, defineEmits } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 
 const props = defineProps({
-    call: String,
-    number: String,
-    name: String,
-    start: Date,
+    call: Object,
     avatar: String,
 });
 
@@ -49,7 +46,7 @@ onBeforeUnmount(() => {
 });
 
 const updateDuration = () => {
-    duration.value = Math.floor((new Date() - props.start) / 1000);
+    duration.value = Math.floor((new Date() - props.call.start) / 1000);
 };
 
 const computedDuration = computed(() => {
@@ -64,8 +61,8 @@ const computedDuration = computed(() => {
 const computedAvatar = computed(() => {
     if (props.avatar) {
         return props.avatar;
-    } else if (props.name) {
-        const names = props.name.split(' ');
+    } else if (props.call.name) {
+        const names = props.call.name.split(' ');
         if(names.length > 1) {
             return `https://ui-avatars.com/api/?color=fff&background=random&name=${names[0]}+${names[1]}`;
         } else {

@@ -27,6 +27,5 @@
 .adion-softphone {
     width: 20%;
     height: 100dvh;
-    /* position: sticky; */
 }
 </style>

@@ -3,72 +3,55 @@
         <search :show="search_showed" @close="search_showed = !search_showed"/>
         <div class="top">
 
-            <incoming v-for="call in webRTC.incoming_call" 
+            <incoming v-for="call in adion.call.active.incoming" 
                 :key="call.number" 
                 :call="call.id" 
                 :number="call.number" 
                 :name="call.name" 
                 :start="call.start" 
-                @hangup="handle_reject" 
-                @answer="handle_answer"
+                @hangup="adion.call.reject(call.id)" 
+                @answer="adion.call.answer(call.id)"
             />
 
-            <hold v-for="call in computed_hold_call" 
+            <hold v-for="call in adion.call.active.hold" 
                 :key="call.number" 
                 :call="call.id" 
                 :number="call.number" 
                 :name="call.name" 
                 :start="call.start" 
-                @unhold="handle_unhold" 
+                @unhold="adion.call.unhold(call.id)" 
             />
 
             <Clock v-if="
-                webRTC.incoming_call.length === 0 &&
-                webRTC.current_hold_call.length === 0 &&
-                webRTC.active_call.length === 0
+                adion.call.active.incoming.length === 0 && 
+                adion.call.active.talking.length === 0 ||
+                adion.call.active.hold.length === 0
             " />
         </div>
         <div class="bottom pb-5">
 
-            <user v-if="webRTC.incoming_call.length === 0 &&
-                webRTC.current_hold_call.length === 0 &&
-                webRTC.active_call.length === 0" 
+            <user v-if="adion.call.active.talking.length === 0" 
             />
 
-            <avatar v-if="computed_active_call" 
-                :number="computed_active_call.number" 
-                :name="computed_active_call.name" 
-                :start="computed_active_call.start"
+            <avatar v-if="adion.call.active.talking.length > 0"
+                :call="adion.call.active.talking[0]"
             />
 
-            <dialpad v-if="computed_active_call && !hide_dialpad" 
+            <dialpad v-if="adion.call.active.talking.length > 0 && !hide_dialpad" 
                 :input="false" 
                 :back="true" 
-                :call="computed_active_call.id"
-                @dtmf="handle_dtmf" 
+                :call="adion.call.active.talking[0]"
                 @close="handle_close_dialpad"
             />
 
-            <dialpad v-if="!computed_active_call && !hide_dialpad" 
+            <dialpad v-if="adion.call.active.talking.length == 0" 
                 :input="true" 
-                @close="handle_close_dialpad" 
-                @make_call="handle_make_call"
             />
 
-            <control v-if="computed_active_call && !hide_control" 
-                :call="computed_active_call.id" 
-                :mute="computed_active_call.muted" 
-                :hold="(webRTC.current_hold_call.length === 1) ? true : false" 
-                :record="computed_active_call.recorded"                
+            <control v-if="adion.call.active.talking.length > 0 && !hide_control" 
+                :call="adion.call.active.talking[0]"              
                 @show_dialpad="handle_show_dialpad" 
                 @create_call="handle_search_show" 
-                @hangup_call="handle_hangup" 
-                @hold_call="handle_hold" 
-                @unhold_call="handle_unhold" 
-                @mute_call="handle_mute"
-                @unmute_call="handle_unmute"
-                @start_record_call="handle_start_record_call"
-                @stop_record_call="handle_stop_record_call"
             />
 
         </div>
@@ -76,12 +59,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, reactive, computed, watchEffect } from 'vue';
-import { useWebRTC } from '@/stores/webrtc';
+import { ref, onMounted, onBeforeUnmount, watchEffect } from 'vue';
+import useAdion from '@/Adion'
 
-const webRTC = useWebRTC()
-webRTC.init()
-
+const adion = useAdion()
 const search_showed = ref(false)
 
 let hide_control = ref(false)
@@ -93,90 +74,8 @@ function handle_key_down(event) {
     }
 }
 
-// Retourne les appelles en attente
-const computed_hold_call = computed(() => {
-    return webRTC.active_call.filter(call => call.status === 'wait')
-})
-
-// Retourne l'appel actif ou l'un des appels en attente
-const computed_active_call = computed(() => {
-    const active = webRTC.active_call.filter(call => call.status === 'active')[0]
-    if (active) {
-        return active
-    }
-
-    if(webRTC.current_hold_call.length > 0){
-        return webRTC.current_hold_call[0]
-    }
-
-    if(computed_hold_call.length > 0){
-        return computed_hold_call[0]
-    }
-
-    return null
-})
-
 function handle_search_show() {
     search_showed.value = !search_showed.value
-}
-
-function handle_reject(call) {
-    webRTC.reject(call)
-}
-
-function handle_answer(call) {
-    webRTC.answer(call)
-    hide_dialpad.value = true
-    hide_control.value = false
-}
-
-function handle_hangup(call) {
-    console.log('hangup', call)
-    webRTC.hangup(call)
-}
-
-function handle_hold(call) {
-    webRTC.hold(call)
-}
-
-function handle_unhold(call) {
-    webRTC.unhold(call)
-    hide_dialpad.value = true
-    hide_control.value = false
-}
-
-
-function handle_make_call(number) {
-    console.log('make call', number)
-    hide_dialpad.value = true
-    hide_control.value = false
-    webRTC.make_call(number)
-}
-
-function handle_mute(call) {
-    webRTC.mute(call)
-}
-
-function handle_unmute(call) {
-    webRTC.unmute(call)
-}
-
-function handle_start_record_call(call) {
-    console.log('start record call', call)
-    webRTC.active_call.forEach(c => {
-        if (c.id === call) {
-            c.recorded = true
-        }
-    })
-}
-
-function handle_stop_record_call(call) {
-    console.log('stop record call', call)
-    webRTC.active_call.forEach(c => {
-        if (c.id === call) {
-            c.recorded = false
-        }
-    })
 }
 
 
@@ -188,15 +87,10 @@ function handle_show_dialpad() {
 function handle_close_dialpad() {
     hide_dialpad.value = true
 
-    if(webRTC.active_call.length > 0){
+    if (adion.call.active.talking.length > 0){
         hide_control.value = false
     }
 }
-
-function handle_dtmf(value) {
-    webRTC.dtmf(value.call, value.dtmf)
-}
-
 
 onMounted(() => {
     window.addEventListener('keydown', handle_key_down);
@@ -207,7 +101,7 @@ onBeforeUnmount(() => {
 })
 
 watchEffect(() => {
-    if (computed_active_call.value === null) {
+    if (adion.call.active.talking === null) {
         hide_control.value = true
         hide_dialpad.value = false
     }

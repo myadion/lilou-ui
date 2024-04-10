@@ -13,6 +13,7 @@ import * as directives from 'vuetify/directives'
 import { fa } from "vuetify/iconsets/fa";
 import { aliases, mdi } from "vuetify/lib/iconsets/mdi";
 import Notifications from '@kyvg/vue3-notification'
+import Adion from '@/adion/plugin'
 
 
 import "@mdi/font/css/materialdesignicons.css";
@@ -58,4 +59,5 @@ app.use(vuetify)
 app.use(pinia);
 app.use(Notifications)
 app.use(router)
+app.use(Adion)
 app.mount('#app')

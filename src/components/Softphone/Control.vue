@@ -13,16 +13,16 @@
         </v-row>
         <v-row justify="center">
             <v-col  cols="4">
-                <v-btn outlined rounded height="50px" width="50px" class="rounded-pill" :icon="mute ? 'mdi-microphone-off': 'mdi-microphone'" @click="mute_call"/>
+                <v-btn outlined rounded height="50px" width="50px" class="rounded-pill" :icon="call.muted ? 'mdi-microphone-off': 'mdi-microphone'" @click="mute"/>
             </v-col>
             <v-col  cols="4">
-                <v-btn outlined rounded height="50px" width="50px" class="rounded-pill" :icon="hold ? 'mdi-play' : 'mdi-pause'" @click="hold_call"/>
+                <v-btn outlined rounded height="50px" width="50px" class="rounded-pill" :icon="call.hold ? 'mdi-play' : 'mdi-pause'" @click="hold"/>
             </v-col>
             <v-col  cols="4">
                 <v-btn outlined rounded height="50px" width="50px" class="rounded-pill" icon="mdi-phone-plus" @click="emit('create_call')"/>
             </v-col>
             <v-col  cols="4">
-                <v-btn outlined rounded height="50px" width="50px" class="rounded-pill" :icon="record ? 'mdi-record-rec' : 'mdi-record'" @click="record_call" :class="record ? 'adion-recording' : ''"/>
+                <v-btn outlined rounded height="50px" width="50px" class="rounded-pill" :icon="call.record ? 'mdi-record-rec' : 'mdi-record'" @click="record" :class="call.record ? 'adion-recording' : ''"/>
             </v-col>
             <v-col  cols="4">
                 <v-btn outlined rounded height="50px" width="50px" class="rounded-pill" icon="mdi-dialpad" @click="emit('show_dialpad')"/>
@@ -39,53 +39,46 @@
 </template>
 
 <script setup>
-    import { ref, defineEmits, watch } from 'vue';
+    import { defineEmits } from 'vue';
+    import useAdion from '@/Adion'
+
+    const adion = useAdion()
 
     const props = defineProps({
-        call: String,
-        mute: Boolean,
-        hold: Boolean,
-        record: Boolean,
+        call: Object,
     });
 
     const emit = defineEmits([
         'create_call',
-        'hold_call',
-        'unhold_call',
         'show_dialpad',
-        'hangup_call',
-        'mute_call',
-        'unmute_call',
-        'start_record_call',
-        'stop_record_call',
     ]);
 
-    function hold_call(){
-        if(props.hold === true){
-            emit('unhold_call', props.call)
+    function hold(){
+        if(props.call.hold === true){
+            adion.call.unhold(props.call.id)
         } else{
-            emit('hold_call', props.call)
+            adion.call.hold(props.call.id)
         }
     }    
 
-    function mute_call(){
-        if(props.mute === true){
-            emit('unmute_call', props.call)
+    function mute(){
+        if(props.call.muted === true){
+            adion.call.unmute(props.call.id)
         } else{
-            emit('mute_call', props.call)
+            adion.call.mute(props.call.id)
         }
     }
 
-    function record_call(){        
-        if (props.record === true) {
-            emit('stop_record_call', props.call)
-        } else {
-            emit('start_record_call', props.call)
+    function record(){        
+        if(props.call.recorded === true){
+            adion.call.stopRecording(props.call.id)
+        } else{
+            adion.call.startRecording(props.call.id)
         }
     }
 
     function hangup(){
-        emit('hangup_call', props.call)
+        adion.call.hangup(props.call.id)
     }
 </script>
 

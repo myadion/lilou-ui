@@ -1,22 +1,55 @@
-import useTrucStore from '@/Adion/Stores/TrucStore'
 import LogHelper from '@/Adion/Helpers/LogHelper'
-import config from '@/Adion/Config.json'
+import { useNotification } from "@kyvg/vue3-notification"
 
-export class Controller {
-    constructor() {
-        this.config = config
-
-        this.store = useTrucStore()
-        
-        this.log = new LogHelper
-        // this.log = new dependencies.logHelper
-        this.error = this.log.error
-        this.success = this.log.success
-        this.info = this.log.info
+import useAdion from '@/Adion'
+export default class Controller {
+    
+    constructor(dependencies) {
+        this.adion = useAdion()
+        console.log(this.adion)
+        const log = new LogHelper()
+        this.notification = useNotification()
+        this.debug = log.debug
     }
-    // injecDependencies(dependencies){
-    //     this.dependencies = dependencies
-    //     console.log(this.dependencies)
-    // }
+
+    success(message, title = "Parfait !") {
+        this.notification.notify({
+            title: title,
+            text: message,
+            type: "success",
+            duration: 5000,
+        });
+    }
+
+    error(message, code = 0, title = "Erreur") {
+        this.notification.notify({
+            title: title,
+            text: ( code > 0 ? 'Code ' + code + ': ' : '') + message,
+            type: "error",
+            duration: 10000,
+        });
+    }
+
+    warning(message, title = "Attention") {
+        this.notification.notify({
+            title: title,
+            text: message,
+            type: "warn",
+            duration: 5000,
+        });
+    }
+
+    info(message, title = "Information") {
+        this.notification.notify({
+            title: title,
+            text: message,
+            type: "info",
+            duration: 5000,
+        });
+    }
+
+    normalizeString(str) {
+        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    }
 
 }

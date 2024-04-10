@@ -22,9 +22,10 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import useHistoryStore from '@/stores/history';
+import useAdion from '@/Adion';
 
-const history = useHistoryStore();
+const adion = useAdion();
+
 const loading = ref(true);
 const search = ref("");
 const headers = [
@@ -38,7 +39,7 @@ const headers = [
 ];
 
 const processedCalls = computed(() => {
-    return history.cdr.map(call => {
+    return adion.call.log.map(call => {
         let icon = ''
         let rowClass = ''
         loading.value = false;

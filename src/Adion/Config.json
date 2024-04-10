@@ -2,5 +2,7 @@
     "API_URL": "uc.adion-api.eu/api",
     "API_AK": "12a2c1f2-963f-47a2-a0ab-02a92abec5bf",
     "WS_URL": "ws.adion-voip.eu",
-    "WS_PORT": "32776"
+    "WS_PORT": "32776",
+    "UC_REALM": "uc.adion-voip.eu",
+    "USER_AGENT": "Lilou Adion-UC-Client/1.0.0"
 }

@@ -1,18 +1,20 @@
 <template>
     <h1 class="mb-5">Équipes</h1>
 
-    <v-text-field v-model="search" append-icon="mdi-magnify" label="Rechercher une personne ou entrer un numéro" single-line rounded class="rounded-pill" density="compact" variant="outlined"></v-text-field>
+    <v-text-field v-model="search" append-icon="mdi-magnify"
+        label="Rechercher une personne ou entrer un numéro" single-line rounded class="rounded-pill" density="compact"
+        variant="outlined"></v-text-field>
 
     <v-row class="py-2 mt-2">
-        <template v-if="team.members.length > 0">
-            <p v-if="filtered_team.length <= 0 &&  search.length > 0">Aucun résultat trouvé</p>
-            <v-col cols="4" v-for="person in filtered_team" :key="person.id">
-                
-                    <v-card :class="person.do_not_disturb ? 'dnd' : person.line_state">
+        <template v-if="$adion.team.members.length > 0">
+            <p v-if="$adion.team.search(search).length <= 0">Aucun résultat trouvé</p>
+            <v-col cols="4" v-for="person in $adion.team.search(search)" :key="person.id">
+
+                <v-card :class="person.do_not_disturb ? 'dnd' : person.line_state">
                     <v-card-actions>
                         <v-list-item class="w-100 pa-0">
                             <template v-slot:prepend>
-                                <v-avatar :image="person.avatar"></v-avatar>   
+                                <v-avatar :image="person.avatar"></v-avatar>
                             </template>
 
                             <v-list-item-title> {{ person.firstname }} {{ person.lastname }} </v-list-item-title>
@@ -63,26 +65,23 @@
                                             </v-list>
                                         </v-card>
                                     </v-menu>
-                                </div>     
-                            </template>                       
+                                </div>
+                            </template>
                         </v-list-item>
                     </v-card-actions>
                 </v-card>
-            </v-col>     
+            </v-col>
         </template>
-        <template v-else> 
+        <template v-else>
             <v-col cols="4" v-for="n in 4" :key="n">
                 <v-card class="unavailable">
                     <v-card-actions>
                         <v-list-item class="w-100 pa-0">
                             <template v-slot:prepend>
                                 <v-avatar>
-                                    <v-skeleton-loader
-                                        class="mx-auto border"
-                                        type="image"
-                                        width="100"
-                                    ></v-skeleton-loader>
-                                </v-avatar>   
+                                    <v-skeleton-loader class="mx-auto border" type="image"
+                                        width="100"></v-skeleton-loader>
+                                </v-avatar>
                             </template>
 
                             <v-list-item-title>
@@ -90,32 +89,23 @@
                             </v-list-item-title>
 
                             <template v-slot:append>
-                                    <v-skeleton-loader type="button" width="40"></v-skeleton-loader>
-                                    <v-skeleton-loader type="button" width="40"></v-skeleton-loader>
-                                    <v-skeleton-loader type="button" width="40"></v-skeleton-loader>
-                                    <v-skeleton-loader type="button" width="40"></v-skeleton-loader>
-                            </template>                       
+                                <v-skeleton-loader type="button" width="40"></v-skeleton-loader>
+                                <v-skeleton-loader type="button" width="40"></v-skeleton-loader>
+                                <v-skeleton-loader type="button" width="40"></v-skeleton-loader>
+                                <v-skeleton-loader type="button" width="40"></v-skeleton-loader>
+                            </template>
                         </v-list-item>
                     </v-card-actions>
                 </v-card>
-            </v-col>  
+            </v-col>
         </template>
     </v-row>
 </template>
 
 <script setup>
     import { computed, ref } from 'vue';
-    import useTeamStore from '@/stores/team';
+    const search = ref('')
 
-    const team = useTeamStore();
-    const search = ref('');
-
-    const filtered_team = computed(() => {
-        return team.members.filter(member => {
-            const query = `${member.firstname} ${member.status} ${member.lastname} ${member.email} ${member.mobile_phone_number} ${member.exten}`.toLowerCase();
-            return query.includes(search.value.toLowerCase());
-        });
-    });
 </script>
 <style scoped>
 .available {

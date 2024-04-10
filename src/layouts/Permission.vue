@@ -17,7 +17,7 @@
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="primary" text @click="ask_permission">Demander les autorisations</v-btn>
+                                    <v-btn color="primary" text @click="$adion.navigator.request()">Demander les autorisations</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-row>
@@ -28,17 +28,3 @@
         </v-main>
     </v-app>
 </template>
-
-<script setup>
-
-import { defineEmits } from 'vue';
-
-const emit = defineEmits([
-    'reload',
-]);
-
-function ask_permission() {
-    emit('reload');
-}
-
-</script>
