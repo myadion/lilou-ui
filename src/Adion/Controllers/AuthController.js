@@ -1,27 +1,20 @@
 import Controller from './Controller';
-import ApiController from './ApiController';
-import WebsocketController from './WebsocketController';
 
 import config from '@/Adion/config'
 import UserStore from '../Stores/UserStore';
-
-import { useRouter } from 'vue-router'
-
 export default class AuthController extends Controller {
         
     constructor(init) {
         super(init)
-
-        this.api = new ApiController()
-        this.websocket = new WebsocketController()
-        // this.api = this.adion.api
-        // this.websocket = this.adion.websocket
+        
+        this.api = this.adion.api
+        this.websocket = this.adion.websocket
         
         this.user = UserStore()
         this.config = config
         this.check()
 
-        this.debug("AuthController initialized")
+        console.debug("AuthController initialized")
     }
     
     get connected(){

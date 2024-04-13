@@ -1,15 +1,21 @@
 import LogHelper from '@/Adion/Helpers/LogHelper'
 import { useNotification } from "@kyvg/vue3-notification"
 
-// import useAdion from '@/Adion'
+import useAdion from '@/Adion'
 export default class Controller {
     
     constructor(dependencies) {
-        // this.adion = useAdion()
-        // console.log(this.adion)
+        this.adion = useAdion()
         const log = new LogHelper()
         this.notification = useNotification()
         this.debug = log.debug
+    }
+
+    static getInstance(init) {
+        if (!this.instance) {
+            this.instance = new this(init);
+        }
+        return this.instance;
     }
 
     success(message, title = "Parfait !") {

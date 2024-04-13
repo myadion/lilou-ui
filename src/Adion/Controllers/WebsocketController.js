@@ -15,7 +15,7 @@ export default class WebsocketController extends Controller {
 
             this.init()
 
-            this.debug("WebsocketController initialized")
+            console.debug("WebsocketController initialized")
         }
         
         get client(){
@@ -33,7 +33,7 @@ export default class WebsocketController extends Controller {
                 return;
             }
 
-            this.websocket.base = `ws://${config.WS_URL}:${config.WS_PORT}/?ck=${this.user.key}&sk=${this.user.secret}`;
+            this.websocket.base = `wss://${config.WS_URL}:${config.WS_PORT}/?ck=${this.user.key}&sk=${this.user.secret}`;
 
             this.info("Connexion en cours", "Websocket");
             this.websocket.client = new WebSocket(this.websocket.base);

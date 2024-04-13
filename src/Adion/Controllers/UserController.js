@@ -1,5 +1,4 @@
 import Controller from './Controller';
-import ApiController from './ApiController';
 
 import UserStore from '../Stores/UserStore';
 
@@ -8,14 +7,13 @@ export default class UserController extends Controller {
         constructor(init) {
             super(init)
 
-            this.api = new ApiController()
-            // this.api = this.adion.api
+            this.api = this.adion.api
 
             this.user = UserStore();
             
             if(this.user.connected) this.getUserDetails()
 
-            this.debug("UserController initialized")
+            console.debug("UserController initialized")
         }
 
         get me(){

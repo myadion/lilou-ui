@@ -8,7 +8,7 @@ export default class NavigatorPermissionController extends Controller {
         this.user = UserStore();
         this.request()
 
-        this.debug('NavigatorPermissionController initialized');
+        console.debug('NavigatorPermissionController initialized');
     }
     
     get permissionsGranted() {

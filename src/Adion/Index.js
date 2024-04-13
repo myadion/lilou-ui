@@ -1,4 +1,5 @@
 import useServiceProvider from '@/Adion/ServiceProvider';
+import { defineStore } from 'pinia';
 
 export const useAdion = () => {
     const { dependencies: globalDependencies, controllers } = useServiceProvider();
@@ -6,19 +7,20 @@ export const useAdion = () => {
 
     controllers.forEach(({ name, controller, dependencies: controllerDependencies, shortMethods, shortData }) => {
         // Initialisation paresseuse des contrôleurs à l'aide d'un Proxy.
-        // Le contrôleur ne sera instancié qu'à sa première utilisation.
         const controllerProxy = new Proxy({}, {
             get: (target, prop, receiver) => {
                 if (!target.instance) {
                     const mergedDependencies = { ...globalDependencies, ...controllerDependencies };
-                    target.instance = new controller(mergedDependencies);
+                    // Utilisez getInstance si disponible, sinon créez une nouvelle instance.
+                    target.instance = controller.getInstance ? controller.getInstance(mergedDependencies) : new controller(mergedDependencies);
+                    console.debug(`${name}Controller proxy instance created`);
                 }
                 return Reflect.get(target.instance, prop, receiver);
             },
             set: (target, prop, value) => {
                 if (!target.instance) {
                     const mergedDependencies = { ...globalDependencies, ...controllerDependencies };
-                    target.instance = new controller(mergedDependencies);
+                    target.instance = controller.getInstance ? controller.getInstance(mergedDependencies) : new controller(mergedDependencies);
                 }
                 target.instance[prop] = value;
                 return true;
@@ -44,7 +46,6 @@ export const useAdion = () => {
         }
     });
 
-    console.log("Adion initialized", adion);
     return adion;
-};
+}
 export default useAdion;

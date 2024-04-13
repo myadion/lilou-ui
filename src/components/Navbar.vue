@@ -1,8 +1,12 @@
 <template>
     <v-navigation-drawer theme="dark" expand-on-hover rail>
         <v-list>
-            <v-list-item to="account" :prepend-avatar="$adion.me.avatar" 
-                :title="$adion.me.firstname + ' ' + $adion.me.lastname" :subtitle="$adion.me.email"></v-list-item>
+            <v-list-item to="account" :prepend-avatar="adion.me.avatar"
+                :title="adion.me.firstname + ' ' + adion.me.lastname" :subtitle="adion.me.email"></v-list-item>
+
+            <v-list density="compact" nav>
+                <v-list-item prepend-icon="mdi-magnify" @click="adion.finder = true" title="Rechercher"></v-list-item>
+            </v-list>
         </v-list>
 
         <v-divider></v-divider>
@@ -21,9 +25,13 @@
 
         <template v-slot:append>
             <v-list density="compact" nav>
-                <v-list-item prepend-icon="mdi-power-standby" @click="$adion.logout()" value="logout"
+                <v-list-item prepend-icon="mdi-power-standby" @click="adion.logout()" value="logout"
                     title="Déconnexion"></v-list-item>
             </v-list>
         </template>
     </v-navigation-drawer>
 </template>
+<script setup>
+import { useAdion } from '@/Adion'
+const adion = useAdion()
+</script>

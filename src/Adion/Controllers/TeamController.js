@@ -1,7 +1,4 @@
 import Controller from './Controller';
-import ApiController from './ApiController';
-import UserController from './UserController';
-import PresenceController from './PresenceController';
 
 import TeamStore from '../Stores/TeamStore';
 
@@ -10,18 +7,15 @@ export default class TeamController extends Controller {
         constructor(init) {
             super(init)
 
-            this.api = new ApiController()
-            this.user = new UserController()
-            this.presence = new PresenceController()
-            // this.api = this.adion.api
-            // this.user = this.adion.user
-            // this.presence = this.adion.presence
+            this.api = this.adion.api
+            this.user = this.adion.user
+            this.presence = this.adion.presence
             
             this.team = TeamStore()
 
             this.getMembers()
 
-            this.debug("TeamController initialized")
+            console.debug("TeamController initialized")
         }
 
         get members(){

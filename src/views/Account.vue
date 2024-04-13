@@ -1,10 +1,6 @@
 <template>
     <div>
         <h1>Compte</h1>
-        <pre class="dev">
-            {{  $adion.call.active }}
-            <!-- {{  $adion.webrtc.sessions }} -->
-        </pre>
     </div>
 </template>
 
@@ -22,4 +18,7 @@
         font-size: 14px;
 
     }
-</style>
+</style><script setup>
+import { useAdion } from '@/Adion'
+const adion = useAdion()
+</script>

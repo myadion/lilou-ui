@@ -1,35 +1,25 @@
 import Controller from './Controller';
-import ApiController from './ApiController';
-import CallLogController from './CallLogController';
-import WebRTCController from './WebRTCController';
-import TeamController from './TeamController';
 
 import CallStore from '../Stores/CallStore';
-
-
 export default class CallController extends Controller {
         
     constructor(init) {
         super(init)
 
-        this.api = new ApiController()
-        this.callLog = new CallLogController()
-        this.webrtc = new WebRTCController()
-        this.team = new TeamController()
-
-        // this.api = this.adion.api
-        // this.callLog = this.adion.callLog
-        // this.webrtc = this.adion.webrtc
-        // this.team = this.adion.team
+        this.callLog = this.adion.callLog
+        this.api = this.adion.api
+        this.callLog = this.adion.callLog
+        this.webrtc = this.adion.webrtc
+        this.team = this.adion.team
         
         this.call = CallStore()
 
 
-        this.debug("CallController initialized")
+        console.debug("CallController initialized")
     }
 
     get log(){
-        return this.call.log
+        return this.callLog.log
     }
 
     get active(){

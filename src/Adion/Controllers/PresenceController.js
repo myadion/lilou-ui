@@ -1,28 +1,20 @@
 import Controller from './Controller';
-import ApiController from './ApiController';
-import WebsocketController from './WebsocketController';
-import UserController from './UserController';
 
-import { TeamStore } from '../Stores/TeamStore';
 import { PresenceStore } from '../Stores/PresenceStore';
-
 export default class PresenceController extends Controller {
         
         constructor(init) {
             super(init)
 
-            this.api = new ApiController()
-            this.ws = new WebsocketController()
-            this.user = new UserController()
-            // this.api = this.adion.api
-            // this.ws = this.adion.ws
-            // this.user = this.adion.user
+            this.api = this.adion.api
+            this.ws = this.adion.ws
+            this.user = this.adion.user
+            this.team = this.adion.team
 
-            this.team = TeamStore()
             this.presence = PresenceStore()
             this.ws.on('websocket-message', this.handleWs.bind(this));
 
-            this.debug("PresenceController initialized")
+            console.debug("PresenceController initialized")
         }
 
         get type(){
@@ -33,7 +25,6 @@ export default class PresenceController extends Controller {
             if(!this.team.members.length) return this.presence.type.find((type) => type.value === 'offline')
             
             const user = this.team.members.find((member) => member.uuid === uuid)
-            console.log(user)
 
             if (user.do_not_disturb){        
                 return this.presence.type.find((type) => type.value === 'dnd')

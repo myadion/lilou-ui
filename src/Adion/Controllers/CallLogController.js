@@ -9,14 +9,12 @@ export default class CallLogController extends Controller {
     constructor(init) {
         super(init)
 
-        this.api = new ApiController()
-        // this.api = this.adion.api
-        
-        this.call = CallStore()
+        this.api = this.adion.api
 
+        this.call = CallStore()
         this.getCallLog()
 
-        this.debug("CallLogController initialized")
+        console.debug("CallLogController initialized")
     }
     
     getCallLog(limit = 500, page = 1){
@@ -31,5 +29,9 @@ export default class CallLogController extends Controller {
     push(call){
         this.call.log.push(...call)
         this.call.log = this.call.log.filter((v,i,a)=>a.findIndex(t=>(t.id === v.id))===i)
+    }
+
+    get log(){
+        return this.call.log
     }
 }

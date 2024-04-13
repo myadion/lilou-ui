@@ -6,9 +6,9 @@
         variant="outlined"></v-text-field>
 
     <v-row class="py-2 mt-2">
-        <template v-if="$adion.team.members.length > 0">
-            <p v-if="$adion.team.search(search).length <= 0">Aucun résultat trouvé</p>
-            <v-col cols="4" v-for="person in $adion.team.search(search)" :key="person.id">
+        <template v-if="adion.team.members.length > 0">
+            <p v-if="adion.team.search(search).length <= 0">Aucun résultat trouvé</p>
+            <v-col cols="4" v-for="person in adion.team.search(search)" :key="person.id">
 
                 <v-card :class="person.do_not_disturb ? 'dnd' : person.line_state">
                     <v-card-actions>
@@ -103,7 +103,9 @@
 </template>
 
 <script setup>
-    import { computed, ref } from 'vue';
+import { computed, ref } from 'vue';
+import { useAdion } from '@/Adion'
+const adion = useAdion()
     const search = ref('')
 
 </script>

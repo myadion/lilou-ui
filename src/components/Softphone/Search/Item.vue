@@ -1,95 +1,149 @@
  <template>
-    <v-card class="adion-hold" @click="(numbers.length > 1 || (extension && numbers.length > 0)) ? expended = true : callHandler">
+    <!-- compose -->
+    <v-card class="adion-hold" v-if="type === 'compose'" @click="adion.call.new(data)" link>
         <v-row class="align-center">
-                <v-col cols="2" class="adion-avatar" >
-                    <v-avatar rounded class="rounded-pill" size="35px">
-                        <template v-if="computedAvatar">
-                            <v-img :src="computedAvatar"></v-img>
-                        </template>
-                        <template v-else>
-                            <v-icon>mdi-account-circle</v-icon>
-                        </template>
-                    </v-avatar>
-                </v-col>
-                <v-col cols="8" class="adion-user" v-if="name">
-                    <h3>{{ name }} <small v-if="extension">{{ extension }} </small></h3>
-                    <p v-for="number in numbers" :key="number.type">{{ number.type }}: {{ number.number }}</p>
-                </v-col>
-                <v-col cols="2" class="adion-btn">
-                    <v-icon size="20" v-if="extension">mdi-account</v-icon>
-                    <v-icon size="20" v-if="!extension">mdi-book-account</v-icon>
-                    <span v-if="presence" class="presence" :class="presence"></span>
-                </v-col>
-        
-            <v-dialog transition="dialog-top-transition" width="30vw" v-model="expended">
-                <v-card color="grey-darken-4">
-                    <v-toolbar color="grey-darken-4">         
-                        <v-toolbar-title>
-                            <v-avatar rounded class="rounded-pill" size="35px">
-                                <template v-if="computedAvatar">
-                                    <v-img :src="computedAvatar"></v-img>
-                                </template>
-                                <template v-else>
-                                    <v-icon>mdi-account-circle</v-icon>
-                                </template>
-                            </v-avatar>
-                            <span class="ml-2">{{ name }}</span>
-                        </v-toolbar-title>
-                        <v-spacer></v-spacer>
-                        <v-btn icon @click="expended = false">
-                            <v-icon>mdi-close</v-icon>
-                        </v-btn>
-                    </v-toolbar>
-                    <h3 class="text-center">Quel numéro souhaitez-vous utiliser ?</h3>
-                    <v-card-text class="pb-5">
-                        <v-row no-gutters>
-                            <v-col cols="6" v-if="extension" class="pa-1">
-                                <v-card title="Interne" :subtitle="extension.toString()" link :color="computedPresenceColor">
-                                </v-card>
-                            </v-col>
-                            <v-col cols="6" v-for="number in numbers" :key="number.type" class="pa-1">
-                                <v-card :title="number.type" :subtitle="number.number" link varient="darken">
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </v-card-text>
-                </v-card>
-            </v-dialog>
-
-            </v-row>
+            <v-col cols="2" class="adion-avatar">
+                <v-avatar rounded class="rounded-pill" size="35px">
+                    <v-img :src="computedAvatar"></v-img>
+                </v-avatar>
+            </v-col>
+            <v-col cols="8" class="adion-user" v-if="data">
+                <h3>{{ data }}</h3>
+            </v-col>
+            <v-col cols="2" class="adion-btn">
+                <v-icon size="20">mdi-dialpad</v-icon>
+            </v-col>
+        </v-row>
     </v-card>
+
+    <!-- team -->
+    <v-card class="adion-hold" v-if="type === 'team'"
+        @click="(props.data.numbers.length > 0) ? expended = !expended : adion.call.new(data.extension)" link>
+        <v-row class="align-center">
+            <v-col cols="2" class="adion-avatar">
+                <v-avatar rounded class="rounded-pill" size="35px">
+                    <v-img :src="computedAvatar"></v-img>
+                </v-avatar>
+            </v-col>
+            <v-col cols="8" class="adion-user" v-if="data.name">
+                <h3>{{ data.name }} <small v-if="data.extension">{{ data.extension }} </small></h3>
+                <p v-for="number in data.numbers" :key="number.type">{{ number.type }}: {{ number.number }}</p>
+            </v-col>
+            <v-col cols="2" class="adion-btn">
+                <v-icon size="20">mdi-account-group</v-icon>
+                <span v-if="data.presence" class="presence" :class="data.presence"></span>
+            </v-col>
+        </v-row>
+    </v-card>
+
+    <!-- directory -->
+    <v-card class="adion-hold" v-if="type === 'directory'"
+        @click="(data.numbers.length > 1) ? expended = !expended : adion.call.new(data.numbers[0].number)" link>
+        <v-row class="align-center">
+            <v-col cols="2" class="adion-avatar">
+                <v-avatar rounded class="rounded-pill" size="35px">
+                    <v-img :src="computedAvatar"></v-img>
+                </v-avatar>
+            </v-col>
+            <v-col cols="8" class="adion-user" v-if="data.name">
+                <h3>{{ data.name }} <small v-if="data.extension">{{ data.extension }} </small></h3>
+                <p v-for="number in data.numbers" :key="number.type">{{ number.type }}: {{ number.number }}</p>
+            </v-col>
+            <v-col cols="2" class="adion-btn">
+                <v-icon size="20">mdi-book-account</v-icon>
+            </v-col>
+        </v-row>
+    </v-card>
+
+    <!-- history -->
+    <v-card class="adion-hold" v-if="type === 'history'"
+        @click="(props.data.numbers) ? (props.data.extension ?? adion.call.new(data.extension)): adion.call.new(data.number)" link>
+        <v-row class="align-center">
+            <v-col cols="2" class="adion-avatar" v-if="data.name">
+                <v-avatar rounded class="rounded-pill" size="35px">
+                    <v-img :src="computedAvatar"></v-img>
+                </v-avatar>
+            </v-col>
+            <v-col cols="2" v-else>
+                <v-avatar rounded class="rounded-pill" size="35px">
+                    <v-icon>mdi-account</v-icon>
+                </v-avatar>
+            </v-col>
+            <v-col cols="8" class="adion-user">
+                <h3 v-if="data.name !== null">{{ data.name }} <small v-if="data.extension">{{ data.extension }} </small>
+                </h3>
+                <h3 v-else>{{ data.number }} <small v-if="data.extension">{{ data.extension }}</small></h3>
+                <p>{{ new Date(data.date).toLocaleString( 'fr-FR', { hour: 'numeric', minute: 'numeric', day: 'numeric', month: 'numeric'}) }}</p>
+            </v-col>
+            <v-col cols="2" class="adion-btn">
+                <v-icon size="20" v-if="data.direction === 'inbound'">mdi-call-received</v-icon>
+                <v-icon size="20" v-if="data.direction === 'outbound'">mdi-call-made</v-icon>
+                <v-icon size="20" v-if=" data.presence">mdi-account-group</v-icon>
+                <span v-if="data.presence" class="presence" :class="data.presence"></span>
+            </v-col>
+        </v-row>
+    </v-card>
+
+    <v-row v-if="expended">
+        <v-col cols="11" class="mx-auto">
+            <v-row no-gutters>
+                <v-col cols="4" v-if="data.extension" class="pa-1">
+                    <v-card @click="adion.call.new(data.extension.toString())" link :color="computedPresenceColor"
+                        class="text-center">
+                        <small>Interne</small><br>
+                        <h5>{{ data.extension.toString() }}</h5>
+                    </v-card>
+                </v-col>
+                <v-col cols="4" v-for="number in data.numbers" :key="number.type" class="pa-1">
+                    <v-card @click="adion.call.new(number.number)" link class="text-center">
+                        <small>{{ number.type }}</small><br>
+                        <h5>{{ number.number }}</h5>
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-col>
+    </v-row>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
+import useAdion from '@/Adion'
+
+const adion = useAdion()
 
 const props = defineProps({
-    numbers: Object,
-    name: String,
-    extension: Number,
-    avatar: String,
-    presence: String,
+    type: String,
+    data: Object|String
 });
 
 let expended = ref(false);
 
-const computedAvatar = computed(() => {
-    if (props.avatar) {
-        return props.avatar;
-    } else if (props.name) {
-        const names = props.name.split(' ');
-        if (names.length > 1) {
-            return `https://ui-avatars.com/api/?color=fff&background=random&name=${names[0]}+${names[1]}`;
-        } else {
-            return `https://ui-avatars.com/api/color=fff&?background=random&name=${names[0]}`;
-        }
+const computedHistoryNumber = computed(() => {
+    if(props.data === undefined) return 
+
+    if(props.data.call_direction === 'outbound') return props.data.destination_extension
+    if(props.data.call_direction === 'inbound') return props.data.source_extension
+})
+
+const computedName = computed(() => {
+    const names = props.data.name.split(' ');
+    if (names.length > 1) {
+        return `${names[0]} ${names[1]}`;
+    } else {
+        return `${names[0]}`;
     }
-    return null;
 });
 
+const computedAvatar = computed(() => {
+
+    if(props.type === 'compose') return `https://ui-avatars.com/api/color=fff&?background=random&name=${props.data}`;
+    if(props.type === 'directory') return `https://ui-avatars.com/api/color=fff&?background=random&name=${props.data.name}`;
+    else return `https://ui-avatars.com/api/color=fff&?background=random&name=${computedName.value}`;
+})
+
 const computedPresenceColor = computed(() => {
-    if (props.presence) {
-        switch (props.presence) {
+    if (props.data.presence) {
+        switch (props.data.presence) {
             case 'online':
                 return 'success';
             case 'offline':
@@ -104,10 +158,6 @@ const computedPresenceColor = computed(() => {
     }
     return 'grey';
 });
-
-const callHandler = () => {
-    console.log('callHandler')
-}
 
 </script>
 
@@ -180,11 +230,11 @@ const callHandler = () => {
     border-radius: 50%;
 }
 
-.presence.online {
+.presence.available {
     background-color: #619D44;
 }
 
-.presence.offline {
+.presence.unavailable {
     background-color: #D44A4A;
 }
 

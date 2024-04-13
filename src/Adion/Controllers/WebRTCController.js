@@ -1,5 +1,4 @@
 import Controller from './Controller'
-import ApiController from './ApiController'
 
 import config from '@/Adion/config'
 
@@ -16,15 +15,14 @@ export default class WebRTCController extends Controller {
         constructor(init) {
             super(init)
 
-            this.api = new ApiController()
-            // this.api = this.adion.api
+            this.api = this.adion.api
             this.user = UserStore()
             this.call = CallStore()
             this.webrtc = WebRTCStore()
 
             this.init()
 
-            this.debug("WebRTCController initialized")
+            console.debug("WebRTCController initialized")
         }
 
             
@@ -85,7 +83,6 @@ export default class WebRTCController extends Controller {
                 this.handleInvite(session)
             })
 
-            client.waitForRegister()
         }
 
 
@@ -107,7 +104,6 @@ export default class WebRTCController extends Controller {
         }
 
         handleStateChange(session, newState){
-            console.error('State Change', newState)
 
             if (newState === "Terminated") {                  
                 this.removeCall(session.id)
@@ -137,6 +133,15 @@ export default class WebRTCController extends Controller {
         }
 
         new(number){
+            
+            //TODO: c'est un quick fix pour le moment 
+            this.adion.finder = false
+            if(!this.webrtc.client.isRegistered()){
+                setTimeout(() => {
+                    this.new(number)
+                }, 1000)
+            }
+            
             this.hold()
             const session = this.webrtc.client.call(number)
             this.webrtc.sessions.push(session)

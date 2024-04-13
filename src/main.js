@@ -59,5 +59,5 @@ app.use(vuetify)
 app.use(pinia);
 app.use(Notifications)
 app.use(router)
-app.use(Adion)
+// app.use(Adion)
 app.mount('#app')

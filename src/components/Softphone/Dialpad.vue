@@ -2,7 +2,7 @@
     <v-container>
         <v-row justify="center">
             <v-col v-if="input" cols="12">
-                <v-text-field v-model="numberInput" @keydown="validateInput" single-line rounded class="rounded-pill" density="compact" variant="outlined" type="tel" @keyup.enter="make_call"></v-text-field>
+                <v-text-field v-model="numberInput" @keydown="validateInput" single-line rounded class="rounded-pill" density="compact" variant="outlined" type="tel" @keyup.enter="make_call" autofocus></v-text-field>
             </v-col>
                     
             <v-col  v-for="(item, index) in items" :key="index"  cols="4">
@@ -70,6 +70,7 @@
         numberInput.value += value;
         if(props.back === true){
             adion.call.dtmf(props.call.id, value)
+            console.log('DTMF', value)
         }
     }
 

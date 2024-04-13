@@ -13,6 +13,7 @@ import TeamController from '@/Adion/Controllers/TeamController'
 import PresenceController from '@/Adion/Controllers/PresenceController'
 import CallController from '@/Adion/Controllers/CallController'
 import CallLogController from '@/Adion/Controllers/CallLogController'
+import ContactController from '@/Adion/Controllers/ContactController'
 
 
 export const useServiceProvider = () => {
@@ -74,6 +75,12 @@ export const useServiceProvider = () => {
                 name: 'callLog',
                 controller: CallLogController,
             },
+            {
+                name: 'contact',
+                controller: ContactController,
+                shortData: ['finder'],
+                shortMethods: ['search']
+            }
         ]
     }
 }

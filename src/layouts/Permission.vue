@@ -17,7 +17,7 @@
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
-                                    <v-btn color="primary" text @click="$adion.navigator.request()">Demander les autorisations</v-btn>
+                                    <v-btn color="primary" text @click="adion.navigator.request()">Demander les autorisations</v-btn>
                                 </v-card-actions>
                             </v-card>
                         </v-row>
@@ -28,3 +28,8 @@
         </v-main>
     </v-app>
 </template>
+
+<script setup>
+import { useAdion } from '@/Adion'
+const adion = useAdion()
+</script>

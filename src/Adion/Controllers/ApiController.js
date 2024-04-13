@@ -7,9 +7,12 @@ import axios from 'axios'
 
 export default class ApiController extends Controller {
         
+        static instance = null;
+        
+
         constructor(init) {
             super(init)
-
+            
             /*
             * UserStore
             */
@@ -44,7 +47,7 @@ export default class ApiController extends Controller {
                 }
             )
             
-            this.debug("ApiController initialized")
+            console.debug("ApiController initialized")
         }
     
         handleError(error) {
