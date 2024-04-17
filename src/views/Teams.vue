@@ -23,9 +23,9 @@
 
                             <template v-slot:append>
                                 <div class="justify-self-end mr-1">
-                                    <!-- <v-btn density="compact" icon="mdi-phone"></v-btn>
-                                    <v-btn density="compact" icon="mdi-video"></v-btn>
-                                    <v-btn density="compact" icon="mdi-chat"></v-btn> -->
+                                    <v-btn density="compact" icon="mdi-phone" @click="adion.call.new(person.exten)"></v-btn>
+                                    <!-- <v-btn density="compact" icon="mdi-video"></v-btn> -->
+                                    <v-btn density="compact" icon="mdi-chat" :to="'/chat/' + person.uuid"></v-btn>
                                     <v-menu transition="slide-y-transition">
                                         <template v-slot:activator="{ props }">
                                             <v-btn v-bind="props" density="compact" icon="mdi-dots-horizontal"></v-btn>
@@ -43,20 +43,20 @@
                                                         <v-icon icon="mdi-bullhorn"></v-icon>
                                                     </template>
                                                     <v-list-item-title>Interphone</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item  value="2" color="primary">
+                                                </v-list-item> -->
+                                                <!-- <v-list-item  value="2" color="primary">
                                                     <template v-slot:prepend>
                                                         <v-icon icon="mdi-sign-real-estate"></v-icon>
                                                     </template>
                                                     <v-list-item-title>Définir le statut</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item  value="2" color="primary">
+                                                </v-list-item> -->
+                                                <!-- <v-list-item  value="2" color="primary">
                                                     <template v-slot:prepend>
                                                         <v-icon icon="mdi-voicemail"></v-icon>
                                                     </template>
                                                     <v-list-item-title>Laisser un message vocal</v-list-item-title>
-                                                </v-list-item>
-                                                <v-list-item  value="2" color="primary">
+                                                </v-list-item> -->
+                                                <!-- <v-list-item  value="2" color="primary">
                                                     <template v-slot:prepend>
                                                         <v-icon icon="mdi-star-outline"></v-icon>
                                                     </template>

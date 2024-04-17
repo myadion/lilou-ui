@@ -27,6 +27,13 @@ const router = createRouter({
       path: '/chat',
       component: Chat,
       name : 'chat',
+      children: [
+        {
+          path: ':id',
+          component: Chat,
+          name : 'chat',
+        },
+      ]
     },
     {
       path: '/history',

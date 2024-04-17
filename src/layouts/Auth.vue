@@ -59,8 +59,8 @@ function login() {
     loading.value = true
     error.value = false
     if (form.value.validate()) {
-        adion.login(email.value, password.value)
-        // adion.login('k.paly@myadion.com', '159753852')
+        // adion.login(email.value, password.value)
+        adion.login('k.paly@myadion.com', '159753852')
         .catch(err => {
             loading.value = false
             error.value = err
