@@ -14,26 +14,10 @@
                 </v-badge>
             </v-col>
             <v-col cols="12" class="adion-presence pa-0 ma-0">
-                <v-menu location="end">
-                    <template v-slot:activator="{ props }">
-                        <v-chip class="ma-2" :color="adion.presence.state().color" label v-bind="props" variant="text">
-                            <v-icon start icon="mdi-account-circle-outline"></v-icon>
-                            {{ adion.presence.state().text }}
-                        </v-chip>
-                    </template>
-
-                    <v-list>
-                        <v-list-item>
-                            <v-list-item-title>
-                                <v-radio-group v-model="adion.me.state" row>
-                                    <v-radio v-for="item in adion.presence.type" :key="item.value" :label="item.text"
-                                        :value="item.value"
-                                        :color="item.value === 'dnd' ? 'error' : 'success'"></v-radio>
-                                </v-radio-group>
-                            </v-list-item-title>
-                        </v-list-item>
-                    </v-list>
-                </v-menu>
+                <v-chip class="ma-2" :color="adion.presence.state().color" label v-bind="props" variant="text" @click="adion.presence.edit = true">
+                    <v-icon start :icon="adion.presence.state().icon"></v-icon>
+                    {{ adion.presence.state().text }}
+                </v-chip>
             </v-col>
             <v-col cols="12" class="adion-user pa-0 ma-0">
                 <h3>{{ adion.me.firstname }} {{ adion.me.lastname }}</h3>

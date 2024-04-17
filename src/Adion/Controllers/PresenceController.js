@@ -21,6 +21,38 @@ export default class PresenceController extends Controller {
             return this.presence.type
         }
 
+        get edit(){
+            return this.presence.edit
+        }
+
+        set edit(value){
+            this.presence.edit = value
+        }
+
+        status(uuid = this.user.me.uuid){
+            const user = this.team.members.find((member) => member.uuid === uuid)
+            if(!user) return null
+            return user.status
+        }
+
+        editStatus(message){
+            let index = this.team.members.findIndex((member) => member.uuid === this.user.me.uuid)
+            this.team.members[index].status = message
+
+            // on envoie le nouveau status à l'api
+
+            this.edit = false
+        }
+
+        editPresence(presence){
+            let index = this.team.members.findIndex((member) => member.uuid === this.user.me.uuid)
+            this.team.members[index].state = presence
+
+            // on envoie le nouveau status à l'api
+            
+            this.edit = false
+        }
+
         state(uuid = this.user.me.uuid){
             if(!this.team.members.length) return this.presence.type.find((type) => type.value === 'offline')
             

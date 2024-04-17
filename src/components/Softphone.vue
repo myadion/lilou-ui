@@ -1,6 +1,7 @@
 <template>
     <v-container class="softphone">
-        <search :show="search_showed" @close="search_showed = !search_showed"/>
+        <search/>
+        <status/>
         <div class="top">
 
             <incoming v-for="call in adion.call.active.incoming" 

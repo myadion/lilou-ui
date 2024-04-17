@@ -5,14 +5,16 @@ import { ref } from 'vue';
 export const PresenceStore = defineStore('PresenceStore', () => {
 
     const type = [
-        { text: 'Disponible', value: 'available', color: 'green'},
-        { text: 'Absent', value: 'away', color: 'yellow'},
-        { text: 'Ne pas déranger', value: 'dnd', color: 'red'},
-        { text: 'Déconnecté', value: 'offline', color: 'gray'}
+        { text: 'Disponible', value: 'available', color: 'green', icon: 'mdi-check-circle'},
+        { text: 'Absent', value: 'away', color: 'yellow', icon: 'mdi-alert-circle'},
+        { text: 'Ne pas déranger', value: 'dnd', color: 'red', icon: 'mdi-alert-octagon'},
+        { text: 'Déconnecté', value: 'offline', color: 'gray', icon: 'mdi-close-circle'}
     ];
+    const edit = ref(false);
     
     return {
-        type
+        type,
+        edit
     }
     
 });
