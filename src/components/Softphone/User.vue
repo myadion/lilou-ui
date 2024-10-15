@@ -14,7 +14,7 @@
                 </v-badge>
             </v-col>
             <v-col cols="12" class="adion-presence pa-0 ma-0">
-                <v-chip class="ma-2" :color="adion.presence.state().color" label v-bind="props" variant="text" @click="adion.presence.edit = true">
+                <v-chip class="ma-2" :color="adion.presence.state().color" label variant="text" @click="adion.presence.edit = true">
                     <v-icon start :icon="adion.presence.state().icon"></v-icon>
                     {{ adion.presence.state().text }}
                 </v-chip>

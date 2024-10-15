@@ -36,7 +36,7 @@ export default class WebRTCController extends Controller {
                     video: true,
                     localVideo: true,
                 },
-                log: 3,
+                log: 1,
                 userAgentString: config.USER_AGENT,
                 iceCheckingTimeout: 1000, // Durée autorisée pour récupérer les candidats ICE.
                 audioOutputDeviceId: null, // L'identifiant du périphérique de sortie audio (lorsque nous voulons envoyer l'audio vers une autre destination).
@@ -62,12 +62,11 @@ export default class WebRTCController extends Controller {
         }
 
         init(){
-            if (this.webrtc.client) return
+            // if (this.webrtc.client) return
 
             const client = new WebRTCClient(this.config);
             this.webrtc.client = client;
-            this.webrtc.phone = new WebRTCPhone(this.webrtc.client);
-            
+
             client.on('invite', (session) => {
                 
                 this.call.active.incoming.push({
@@ -87,6 +86,7 @@ export default class WebRTCController extends Controller {
 
 
         handleInvite(session) {
+            console.log('invite', session)
             this.webrtc.sessions.push(session)
 
             session._onCancel = () => {
@@ -111,6 +111,7 @@ export default class WebRTCController extends Controller {
         }
 
         getSession(callId){
+            console.log(this.webrtc.sessions.find(s => s.id === callId), this.webrtc.sessions)
             return this.webrtc.sessions.find(s => s.id === callId)
         }
 
@@ -136,11 +137,11 @@ export default class WebRTCController extends Controller {
             
             //TODO: c'est un quick fix pour le moment 
             this.adion.finder = false
-            if(!this.webrtc.client.isRegistered()){
-                setTimeout(() => {
-                    this.new(number)
-                }, 1000)
-            }
+            // if(!this.webrtc.client.isRegistered()){
+            //     setTimeout(() => {
+            //         this.new(number)
+            //     }, 1000)
+            // }
             
             this.hold()
             const session = this.webrtc.client.call(number)

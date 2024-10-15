@@ -26,7 +26,7 @@
                                     <v-btn block class="mb-8" color="blue" size="large" variant="tonal" @click="login">Connexion</v-btn>
                                 </v-form>
 
-                                <v-alert v-model="error" dense outlined type="error" border="left" color="error" icon="mdi-alert-circle-outline">{{ error }}</v-alert>
+                                <v-alert v-model="error" dense outlined type="error" color="error" icon="mdi-alert-circle-outline">{{ error }}</v-alert>
 
                             </v-card>
                         </v-row>

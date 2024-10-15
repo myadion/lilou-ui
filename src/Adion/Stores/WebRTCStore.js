@@ -13,5 +13,10 @@ export const WebRTCStore = defineStore('WebRTCStore', () => {
         sessions
     }
     
+}, {
+    persist: {
+        storage: localStorage,
+        paths: ['sessions'],
+    }
 });
 export default WebRTCStore;

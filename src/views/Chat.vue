@@ -16,8 +16,8 @@
                 </v-list-item>
             </v-list>
         </v-col>
-        <v-col cols="9" class="d-flex flex-column">
-            <v-card class="flex-grow-1 d-flex flex-column">
+        <v-col cols="9" class="d-flex flex-column  fill-height">
+            <v-card class="flex-grow-1 d-flex flex-column" height="95vh">
                 <v-card-title>
                     <v-container class="pa-0 align-center d-flex ga-5">
                         <v-avatar>
@@ -169,6 +169,6 @@ const chats = ref([
 ])
 
 const selectedChat = computed(() => {
-    return chats.value.find(chat => chat.id === route.params.id)
+    return (chats.value.find(chat => chat.id === route.params.id) || chats.value[0])
 })
 </script>

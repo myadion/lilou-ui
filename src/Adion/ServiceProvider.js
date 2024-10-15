@@ -14,6 +14,7 @@ import PresenceController from '@/Adion/Controllers/PresenceController'
 import CallController from '@/Adion/Controllers/CallController'
 import CallLogController from '@/Adion/Controllers/CallLogController'
 import ContactController from '@/Adion/Controllers/ContactController'
+import SettingController from '@/Adion/Controllers/SettingController'
 
 
 export const useServiceProvider = () => {
@@ -80,6 +81,10 @@ export const useServiceProvider = () => {
                 controller: ContactController,
                 shortData: ['finder'],
                 shortMethods: ['search']
+            },
+            {
+                name: 'setting',
+                controller: SettingController,
             }
         ]
     }

@@ -1,7 +1,31 @@
 <template>
     <div class="debug">
-        <h1>Debug</h1>
-        <pre>{{ adion.search('') }}</pre>
+        <v-row>
+            <v-col cols="6">
+                <v-card>
+                    <v-card-title>CallStore > active</v-card-title>
+                    <v-card-text>
+                        <pre>{{ adion.call.call.active }}</pre>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+            <v-col cols="6">
+                <v-card>
+                    <v-card-title>WebRTCStore > sessions</v-card-title>
+                    <v-card-text>
+                        <pre>{{ adion.webrtc.webrtc.sessions }}</pre>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+            <v-col cols="6">
+                <v-card>
+                    <v-card-title>WebsocketStore</v-card-title>
+                    <v-card-text>
+                        <pre>{{ adion.ws.websocket }}</pre>
+                    </v-card-text>
+                </v-card>
+            </v-col>
+        </v-row>
     </div>
 </template>
 

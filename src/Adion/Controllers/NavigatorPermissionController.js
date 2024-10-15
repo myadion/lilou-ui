@@ -35,11 +35,11 @@ export default class NavigatorPermissionController extends Controller {
     }
 
     requestLocationPermission() {
-        return new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, () => {
-                reject(new Error("Permission refusée pour la géolocalisation."));
-            });
-        });
+        // return new Promise((resolve, reject) => {
+        //     navigator.geolocation.getCurrentPosition(resolve, () => {
+        //         reject(new Error("Permission refusée pour la géolocalisation."));
+        //     });
+        // });
     }
 
     requestClipboardPermission() {

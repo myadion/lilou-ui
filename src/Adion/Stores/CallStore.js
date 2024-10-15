@@ -21,5 +21,7 @@ export const CallStore = defineStore('CallStore', () => {
         log        
     }
     
-});
+}, {
+    persist: true
+})
 export default CallStore;
