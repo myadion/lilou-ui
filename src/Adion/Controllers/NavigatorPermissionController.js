@@ -16,10 +16,11 @@ export default class NavigatorPermissionController extends Controller {
     }
 
     request() {
-        return this.requestMediaPermission()
+        return this.requestAudioPermission()
+            .then(( )=> this.requestVideoPermission())
             .then(() => this.requestNotificationPermission())
             .then(() => this.requestLocationPermission())
-            // .then(() => this.requestClipboardPermission())
+            .then(() => this.requestClipboardPermission())
             .then(() => {
                 this.user.navigatorPermissionsGranted = true
             })
@@ -29,17 +30,22 @@ export default class NavigatorPermissionController extends Controller {
             });
     }
 
-    requestMediaPermission() {
-        return navigator.mediaDevices.getUserMedia({ audio: true, video: true })
-            .catch(() => { throw new Error("Permission refusée pour l'accès aux médias."); });
+    requestAudioPermission() {
+        return navigator.mediaDevices.getUserMedia({ audio: true })
+            .catch(() => { throw new Error("Permission refusée pour l'accès aux micro."); });
+    }
+
+    requestVideoPermission() {
+        return navigator.mediaDevices.getUserMedia({ video: true })
+            .catch(() => { this.warning("Nous avons détecté que votre appareil ne possède pas de caméra ou qu'elle n'est pas accessible. Veuillez vérifier vos paramètres ou utiliser un autre appareil."); });
     }
 
     requestLocationPermission() {
-        // return new Promise((resolve, reject) => {
-        //     navigator.geolocation.getCurrentPosition(resolve, () => {
-        //         reject(new Error("Permission refusée pour la géolocalisation."));
-        //     });
-        // });
+        return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(resolve, () => {
+                reject(new Error("Permission refusée pour la géolocalisation."));
+            });
+        });
     }
 
     requestClipboardPermission() {
