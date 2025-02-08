@@ -18,7 +18,7 @@ export default class NavigatorPermissionController extends Controller {
     request() {
         return this.requestAudioPermission()
             .then(( )=> this.requestVideoPermission())
-            .then(() => this.requestNotificationPermission())
+            // .then(() => this.requestNotificationPermission())
             .then(() => this.requestLocationPermission())
             .then(() => this.requestClipboardPermission())
             .then(() => {
